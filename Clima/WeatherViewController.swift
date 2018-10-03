@@ -83,6 +83,11 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
             
             print("longitude = \(location.coordinate.longitude), latitude = \(location.coordinate.latitude)")
+            
+            let latitude = String(location.coordinate.latitude)
+            let longitude = String(location.coordinate.longitude)
+            
+            let params: [String: String] = ["lat": latitude, "lon": longitude, "appid": APP_ID]
         }
     }
     
