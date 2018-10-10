@@ -46,11 +46,17 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     /***************************************************************/
     
     //Write the getWeatherData method here:
-    func getWetherData(url: String, parameters: [String: String]) {
+    func getWeatherData(url: String, parameters: [String: String]) {
         
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
             response in
             if response.result.isSuccess{
+                print("Success! Got the weather data")
+                
+                let weatherJSON: JSON = JSON(response.result.value!)
+                
+                print(weatherJSON)
+                
                 
             }
             else {
@@ -104,7 +110,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
             
             let params: [String: String] = ["lat": latitude, "lon": longitude, "appid": APP_ID]
             
-            getWetherData(url: WEATHER_URL, parameters: params)
+            getWeatherData(url: WEATHER_URL, parameters: params)
         }
     }
     
