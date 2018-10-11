@@ -54,6 +54,9 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
                 print("Success! Got the weather data")
                 
                 let weatherJSON: JSON = JSON(response.result.value!)
+                
+                print(weatherJSON)
+                
                 self.updateWeatherData(json: weatherJSON)
                 
                 
@@ -79,15 +82,22 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     //Write the updateWeatherData method here:
     func updateWeatherData(json: JSON) {
         
-        let tempResult = json["main"]["temp"].double
+        if let tempResult = json["main"]["temp"].double {
         
-        weatherDataModel.temperature = Int(tempResult! - 273.15)
+        weatherDataModel.temperature = Int(tempResult - 273.15)
         
         weatherDataModel.city = json["name"].stringValue
         
         weatherDataModel.condition = json["weather"][0]["id"].intValue
         
         weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition)
+        
+        updateUIWithWeatherData()
+            
+        }
+        else {
+            cityLabel.text = "Weather Unavailable"
+        }
         
     }
 
@@ -99,7 +109,12 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     
     
     //Write the updateUIWithWeatherData method here:
-    
+    func updateUIWithWeatherData() {
+        
+        cityLabel.text = weatherDataModel.city
+        temperatureLabel.text = "\(weatherDataModel.temperature)"
+        weatherIcon.image = UIImage(named: weatherDataModel.weatherIconName)
+    }
     
     
     
